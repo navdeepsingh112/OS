@@ -159,3 +159,76 @@ disp('Optimal solution:');
 disp(P(minIdx, :));  % Optimal solution
 disp('Optimal value');
 disp(minVal);   % Optimal value
+
+
+
+//2nd
+
+
+
+clc;
+clear all;
+
+% Define the matrices A, b, and C
+C = [3, 5];
+A = [1, 2; 1, 1; 0, 1];
+b = [2000; 1500; 600];
+
+% Define the range for y (x2)
+y = 0:1:max(b);
+
+% Calculate x1 (x) values for each constraint
+x1 = (b(1) - A(1, 1) * y) / A(1, 2);
+x2 = (b(2) - A(2, 1) * y) / A(2, 2);
+x3 = (b(3) - A(3, 1) * y) / A(3, 2);
+
+% Ensure non-negative values
+x1 = max(0, x1);
+x2 = max(0, x2);
+x3 = max(0, x3);
+
+% Plot the constraints
+plot(y, x1, 'r', y, x2, 'b', y, x3, 'g');
+title('Graphical Method');
+xlabel('x2');
+ylabel('x1');
+
+% Finding corner points and intersection points
+cornerpts = [];
+pt = [];
+for i = 1:size(A, 1)
+    A1 = A(i, :);
+    b1 = b(i);
+    for j = i+1:size(A, 1)
+        A2 = A(j, :);
+        b2 = b(j);
+        P = [A1; A2];
+        Q = [b1; b2];
+        X = P \ Q;
+        if all(X >= 0)
+            pt = [pt; X'];
+        end
+    end
+end
+
+% Adding the corner points of the constraints
+cornerpts = [0, b(1)/A(1,2); b(3)/A(3,2), 0; 0, b(2)/A(2,2); 0, 0];
+allpts = unique([pt; cornerpts], 'rows');
+
+% Find max/min
+sum = C(1) * allpts(:, 1) + C(2) * allpts(:, 2);
+[maxVal, maxIdx] = max(sum);
+[minVal, minIdx] = min(sum);
+
+% Displaying the results
+disp('MAX');
+disp('Optimal solution:');
+disp(allpts(maxIdx, :));  % Optimal solution
+disp('Optimal value');
+disp(maxVal);   % Optimal value
+
+disp('MIN');
+disp('Optimal solution:');
+disp(allpts(minIdx, :));  % Optimal solution
+disp('Optimal value');
+disp(minVal);   % Optimal value
