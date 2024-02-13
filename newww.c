@@ -59,4 +59,33 @@ INSERT INTO employees (employee_id, first_name, last_name, email, job_title, dat
 SELECT * FROM employees;
 SELECT first_name, last_name FROM employees WHERE date_of_joining BETWEEN SYSDATE-30 AND SYSDATE;
 SELECT first_name, last_name FROM employees WHERE TO_CHAR(date_of_joining, 'DAY') = 'MONDAY';
-SELECT * FROM employees WHERE TO_CHAR(date_of_joining, 'MONTH')='FEBRUARY';
+SELECT * FROM employees WHERE TO_CHAR(date_of_joining, 'MONTH')='FEBRUARY'
+
+
+
+
+
+
+
+
+
+
+
+
+
+--drop table Emp;
+--create table Emp(Empno number, Name varchar2(20), doj date);
+--insert into Emp values(1, 'Mehak', '13-OCT-2003');
+--insert into Emp values(2, 'Akshit', '03-OCT-2004');
+--insert into Emp values(3, 'Mitul', '18-NOV-2003');
+--insert into Emp values(4,'Vanshika', '16-JUN-2003');
+--select *  from  Emp;
+--select * from Emp where to_char(doj,'FMDaY')='Tuesday';
+--select * from Emp where to_char(doj,'FMMONTH')='NOV';
+--select Name from Emp where doj between sysdate-30 and sysdate;
+create table Train(Trainno number(6) Primary key, dept_date date, dept_time timestamp, arv_time timestamp);
+insert into Train values(12763, '13-FEB-2024', '13-FEB-2024 11:30:00 AM', '15-FEB-2024 6:45:00 PM');
+insert into Train values(24517, '17-FEB-2024', '17-FEB-2024 9:30:00 AM', '18-FEB-2024 5:15:00 PM');
+insert into Train values(17041, '19-FEB-2024', '19-FEB-2024 10:00:00 PM', '20-FEB-2024 3:50:00 PM');
+select * from Train;
+select * from Train where to_char(arv_time, 'PM')= 'PM';
