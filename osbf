@@ -1,15 +1,28 @@
-clc 
+clc
 clear all;
-A = [-1,1,1;1,1,1];
-b = [1;2];
-a =1:1:4;
-[m,n]=size(A);
+A = [-1 1 1; 1 1 1];
+B = [1; 2];
+a = 1:1:4;
+[m,n] = size(A)
 d = nchoosek(n,m);
-c = nchoosek(a,m);
-sol = [];
-for i =1:d
-    B = A(:,c(i,:));
-    if det(B)==0
-        result = det(B)*b;
+c = nchoosek(a, m);
+sol[];
+if n>m
+
+    for i = 1:d
+        y = zeroes(n, 1);
+        x = A(:, c(i, :))\b;
+        y(c(i, :)) = x;
+        if all(x>0 & x~=inf & x~=-inf)
+            y(c(1, :)) = x;
+            sol = (sol y);
+        end
     end
+else
+    error('   ');
 end
+z = C.*sol;
+[Zmax, Zind] = max[Z];
+BFS = soln(:, Zind);
+optValbv = [BFS' Zmax];
+optimal_BFS = array2table(optVal)
