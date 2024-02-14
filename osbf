@@ -1,28 +1,42 @@
-clc
+clc;
 clear all;
-A = [-1 1 1; 1 1 1];
-B = [1; 2];
-a = 1:1:4;
-[m,n] = size(A)
-d = nchoosek(n,m);
-c = nchoosek(a, m);
-sol[];
-if n>m
+format short;
 
-    for i = 1:d
-        y = zeroes(n, 1);
-        x = A(:, c(i, :))\b;
-        y(c(i, :)) = x;
-        if all(x>0 & x~=inf & x~=-inf)
-            y(c(1, :)) = x;
-            sol = (sol y);
+% Correct the matrices A, b, and C to match the original problem's constraints and objective
+A = [3 -1 1 1 0 0;  % Including slack variables s1, s2, s3 for each constraint
+     -1 2 0 0 1 0;
+     -4 3 8 0 0 1];
+b = [7; 6; 10];     % RHS of the constraints
+C = [-1; 3; -3; 0; 0; 0]; % Coefficients of the objective function, including zeros for slack variables
+
+% Assuming the task is to explore combinations of variables to find a feasible solution
+[m, n] = size(A);
+a = 1:n;
+d = nchoosek(n, m);
+combinations = nchoosek(a, m);
+
+sol = [];
+
+for i = 1:d
+    y = zeros(n, 1);
+    try
+        x = A(:, combinations(i, :)) \ b;
+        if all(x >= 0)
+            y(combinations(i, :)) = x;
+            sol = [sol, y];
         end
+    catch
+        % This catch block is to handle cases where A(:, combinations(i, :)) is singular or nearly singular
     end
-else
-    error('   ');
 end
-z = C.*sol;
-[Zmax, Zind] = max[Z];
-BFS = soln(:, Zind);
-optValbv = [BFS' Zmax];
-optimal_BFS = array2table(optVal)
+
+if isempty(sol)
+    disp('No feasible solution found.');
+else
+    z = C' * sol;
+    [Zmax, Zind] = max(z);
+    BFS = sol(:, Zind);
+    optVal = [BFS; Zmax];
+    optimal_BFS = array2table(optVal', 'VariableNames', {'X1', 'X2', 'X3', 'S1', 'S2', 'S3', 'Zmax'});
+    disp(optimal_BFS);
+end
