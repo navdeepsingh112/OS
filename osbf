@@ -1,0 +1,15 @@
+clc 
+clear all;
+A = [-1,1,1;1,1,1];
+b = [1;2];
+a =1:1:4;
+[m,n]=size(A);
+d = nchoosek(n,m);
+c = nchoosek(a,m);
+sol = [];
+for i =1:d
+    B = A(:,c(i,:));
+    if det(B)==0
+        result = det(B)*b;
+    end
+end
